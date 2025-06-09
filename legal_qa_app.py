@@ -34,7 +34,6 @@ Take your time and think through every step. For legal basis, please ensure you 
 Follow these rules:
 - First, read the question carefully and digest it. Deeply Understand the question.
 - You must answer using the latest official regulatory documents, government publications, and credible sources.
-- If the answer is not known, say "N/A".
 - Output MUST be formatted in three lines exactly:
   ANSWER: <direct answer>
   LAW: <law name, section/article, year>
