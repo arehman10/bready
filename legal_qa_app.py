@@ -16,7 +16,6 @@ def parse_three_lines(text: str) -> dict:
         out[key] = m.group(1).strip() if m else ""
     return out
 
-
 LEGAL_QA_SYSTEM_PROMPT = """
 You are a legal expert specializing in the government legal framework, laws, regulations, and practices of {economy}. 
 Your task is to answer questions related to the government legal framework using factual, concise, and up-to-date information. 
