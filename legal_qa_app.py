@@ -100,6 +100,17 @@ def call_openai(
         max_output_tokens=max_tokens,
         top_p=1,
         store=False,
+        response_format={"type": "json_object",
+                         "schema": {
+                             "type": "object",
+                             "properties": {
+                                 "ANSWER": {"type": "string"},
+                                 "LAW":    {"type": "string"},
+                                 "LINK":   {"type": "string"}
+                             },
+                             "required": ["ANSWER", "LAW", "LINK"],
+                             "additionalProperties": False
+                         }},
     )
     return resp.output_text.strip()
 
