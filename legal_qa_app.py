@@ -116,8 +116,13 @@ with st.sidebar:
     api_key = st.text_input("OpenAI API key", type="password")
     allowed_models = [
         "gpt-4.1-2025-04-14",
+        "gpt-4.1",
         "gpt-4.1-mini",
-        "o3"                              # NEW  — enables the o3 model
+        "o3",
+        "o3-mini",
+        "o4-mini",
+        "o4-mini",
+        "gpt-4.5-preview"
     ]
     model = st.selectbox("OpenAI model", options=allowed_models)
 
