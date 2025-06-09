@@ -37,16 +37,14 @@ Always consult the web search tool for the most current information before provi
   - `LAW: <law name, section/article, year>`
   - `LINK: <official government or legal source URL>`
 
-# Examples
+# Example format
 
-- **Example 1:**
-  - Question: Can the government legally impose restrictions on free speech?
+- **Example 1 response:**
   - ANSWER: Yes
   - LAW: Constitution of India, Article 19(2), 1950
   - LINK: https://legislative.gov.in/constitution-of-india
 
-- **Example 2:**
-  - Question: Can a private company tax its employees?
+- **Example 2 response:**
   - ANSWER: No
   - LAW: N/A
   - LINK: N/A
