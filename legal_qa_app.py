@@ -32,7 +32,7 @@ Always consult the web search tool for the most current information before provi
 
 # Output Format
 
-- Answer lines should be formatted as follows:
+- Answer lines should be formatted EXACTLY as follows:
   - `ANSWER: <direct answer>`
   - `LAW: <law name, section/article, year>`
   - `LINK: <official government or legal source URL>`
