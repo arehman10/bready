@@ -1,5 +1,4 @@
 # legal_qa_app.py
-# Batch legal Q&A with GPT-4.1/4o AND o3 models
 import os, re, time, datetime, ssl, certifi, httpx, pandas as pd
 from io import BytesIO
 from pathlib import Path
