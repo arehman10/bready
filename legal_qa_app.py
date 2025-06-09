@@ -1,22 +1,22 @@
 # legal_qa_app.py
-# Batch legal Q&A with GPT-4.1/4o — prompt-engineered, no o-models.
+# Batch legal Q&A with GPT-4.1/4o AND o3 models
 import os, re, time, datetime, ssl, certifi, httpx, pandas as pd
 from io import BytesIO
 from pathlib import Path
 import streamlit as st
 from openai import OpenAI
 
-
-# --- Robust parsing helper
+# ---------- Helpers -----------------------------------------------------------
 def parse_three_lines(text: str) -> dict:
     out = {"ANSWER": "", "LAW": "", "LINK": ""}
-    if not text: return out
-    for key in ("ANSWER", "LAW", "LINK"):
+    if not text:
+        return out
+    for key in out:
         m = re.search(fr"{key}:\s*(.*)", text, re.I)
         out[key] = m.group(1).strip() if m else ""
     return out
 
-# --- Best-practices legal prompt
+
 LEGAL_QA_SYSTEM_PROMPT = """
 You are a legal expert specializing in the government legal framework, laws, regulations, and practices of {economy}.
 
@@ -56,12 +56,15 @@ Example:
 ANSWER: No
 LAW: N/A
 LINK: N/A
-"""
+""".strip()
 
-def build_prompt(economy: str, question: str) -> str:
-    # For GPT-4.1/4o: instructions go in system prompt, user gets just the question
+
+def build_prompt(question: str) -> str:
+    # For GPT-4.1/4o we feed only the question in the user field
     return f"Answer this legal question:\n{question}"
 
+
+# --- universal OpenAI caller
 def call_openai(
     client: OpenAI,
     model: str,
@@ -71,7 +74,21 @@ def call_openai(
     temperature: float,
     max_tokens: int,
 ) -> str:
-    # Only GPT-4.1/4o models supported
+
+    # ---------- o-model branch (o3, o3-mini …) ----------
+    if model.startswith("o3"):
+        resp = client.responses.create(
+            model=model,
+            input=[
+                {"role": "system", "content": system_instructions},
+                {"role": "user",   "content": prompt}
+            ],
+            max_output_tokens=max_tokens,   # optional; include only if allowed
+            store=False,
+        )
+        return resp.output_text.strip()
+
+    # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
         model=model,
         instructions=system_instructions,
@@ -88,17 +105,37 @@ def call_openai(
     )
     return resp.output_text.strip()
 
-# --- Streamlit UI
-st.set_page_config(page_title="B-READy AI Tool", page_icon="⚖️", layout="wide")
-st.title("⚖️B-READY AI Tool")
+    # ── 2️⃣  GPT-4.1 / 4o  ────────────────────────────────────────────────
+    resp = client.responses.create(
+        model=model,
+        instructions=system_instructions,
+        input=prompt,
+        tools=[{
+            "type": "web_search_preview",
+            "user_location": {"type": "approximate", "country": country_code},
+            "search_context_size": "high",
+        }],
+        temperature=temperature,
+        max_output_tokens=max_tokens,
+        top_p=1,
+        store=False,
+    )
+    return resp.output_text.strip()
+
+
+# ---------- Streamlit UI ------------------------------------------------------
+st.set_page_config(page_title="B-READY AI Tool", page_icon="⚖️", layout="wide")
+st.title("⚖️  B-READY AI Tool")
 
 with st.sidebar:
     st.header("Configuration")
     api_key = st.text_input("OpenAI API key", type="password")
     allowed_models = [
-        "gpt-4.1-2025-04-14", "gpt-4.1-mini"
+        "gpt-4.1-2025-04-14",
+        "gpt-4.1-mini",
+        "o3"                              # NEW  — enables the o3 model
     ]
-    model = st.selectbox("OpenAI model (GPT-4.1)", options=allowed_models)
+    model = st.selectbox("OpenAI model", options=allowed_models)
     economy = st.text_input("Economy name", value="India")
     country_code = st.text_input("ISO-2 country code", value="IN", max_chars=2)
     st.markdown("---")
@@ -143,7 +180,6 @@ if uploaded_file:
 
         total = len(df_answers)
 
-        # Row-by-row processing with live update
         for idx, row in df_answers.iterrows():
             q_ref, question = row["Reference"], row["Question"]
             status_text.markdown(f"**Processing:** `{q_ref}`")
@@ -151,13 +187,13 @@ if uploaded_file:
             attempt = 0
             while attempt <= max_retry:
                 try:
-                    prompt = build_prompt(economy, question)
-                    system_instructions = LEGAL_QA_SYSTEM_PROMPT.format(economy=economy)
+                    prompt = build_prompt(question)
+                    sys_instr = LEGAL_QA_SYSTEM_PROMPT.format(economy=economy)
                     raw = call_openai(
                         client,
                         model,
                         prompt,
-                        system_instructions,
+                        sys_instr,
                         country_code.upper(),
                         temperature,
                         max_tokens,
@@ -172,8 +208,10 @@ if uploaded_file:
                     if attempt > max_retry:
                         df_answers.at[idx, "Answer"] = f"API error: {e}"
                     time.sleep(sleep_time)
+
             live_table_ph.dataframe(df_answers.iloc[: idx + 1], use_container_width=True)
             progress_bar.progress(int((idx + 1) / total * 100))
+
         progress_bar.empty()
         status_text.success("Completed!")
         st.subheader("Full results")
