@@ -85,7 +85,7 @@ def call_openai(
             store=False,
             reasoning={
                 "effort": "high", # unchanged
-                "summary": "null" # auto gives you the best available summary (detailed > auto > None)
+                "summary": "concise" # auto gives you the best available summary (detailed > auto > None)
             },
         )
         return resp.output_text.strip()
