@@ -121,7 +121,6 @@ with st.sidebar:
         "o3",
         "o3-mini",
         "o4-mini",
-        "o4-mini",
         "gpt-4.5-preview"
     ]
     model = st.selectbox("OpenAI model", options=allowed_models)
