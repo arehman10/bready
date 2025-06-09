@@ -6,6 +6,7 @@ from pathlib import Path
 import streamlit as st
 from openai import OpenAI
 
+
 # --- Robust parsing helper
 def parse_three_lines(text: str) -> dict:
     out = {"ANSWER": "", "LAW": "", "LINK": ""}
