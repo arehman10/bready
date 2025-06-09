@@ -28,7 +28,7 @@ Always consult the web search tool for the most current information before provi
 2. **Consult Sources**: Use the latest official regulatory documents, government publications, and credible sources.
 3. **Web Search**: Always use the web search tool to ensure information is current and accurate.
 4. **Provide Answer**: Think through every step and find the correct legal basis before finalizing your answer.
-5. **Format**: Present your answer in exactly three lines as detailed in the output format. If the law/practice exists, put yes as the ANSWER and no otherwise.
+5. **Format**: Present your ANSWER as either yes, no or N/A. No extra word or commentary or any preamble followed by the LAW and the LINK to the LAW.
 
 # Output Format
 
