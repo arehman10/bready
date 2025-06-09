@@ -194,7 +194,7 @@ if uploaded_file:
                         temperature,
                         max_tokens,
                     )
-                    st.markdown(f"### Raw response for **{q_ref}**")
+                    st.markdown(f"### Response for **{q_ref}**")
                     st.code(raw, language="text")
                     parsed = parse_three_lines(raw)
                     df_answers.at[idx, "Answer"]      = parsed["ANSWER"]
