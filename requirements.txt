@@ -5,3 +5,6 @@ openpyxl
 xlrd
 folium
 streamlit_folium
+ssl
+certifi
+httpx
