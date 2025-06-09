@@ -1,11 +1,12 @@
 # legal_qa_app.py
+# Batch legal Q&A with GPT-4.1/4o AND o3 models
 import os, re, time, datetime, ssl, certifi, httpx, pandas as pd
 from io import BytesIO
 from pathlib import Path
 import streamlit as st
 from openai import OpenAI
 
-# ---------- Helpers --------------------------------------------------------
+# ---------- Helpers -----------------------------------------------------------
 def parse_three_lines(text: str) -> dict:
     out = {"ANSWER": "", "LAW": "", "LINK": ""}
     if not text:
@@ -104,22 +105,6 @@ def call_openai(
     )
     return resp.output_text.strip()
 
-    # ── 2️⃣  GPT-4.1 / 4o  ────────────────────────────────────────────────
-    resp = client.responses.create(
-        model=model,
-        instructions=system_instructions,
-        input=prompt,
-        tools=[{
-            "type": "web_search_preview",
-            "user_location": {"type": "approximate", "country": country_code},
-            "search_context_size": "high",
-        }],
-        temperature=temperature,
-        max_output_tokens=max_tokens,
-        top_p=1,
-        store=False,
-    )
-    return resp.output_text.strip()
 
 
 # ---------- Streamlit UI ------------------------------------------------------
@@ -135,12 +120,24 @@ with st.sidebar:
         "o3"                              # NEW  — enables the o3 model
     ]
     model = st.selectbox("OpenAI model", options=allowed_models)
+
+    is_o_model = model.startswith("o3")              # helper flag
+
+    temperature = st.slider(
+        "Temperature",
+        0.0, 1.0, 0.1, 0.05,
+        disabled=is_o_model,                         # ← greys-out for o-models
+        key="temp_slider",
+    )
+    if is_o_model:
+        st.caption("Temperature is ignored for o-models (o3, o3-mini, …).")
+
     economy = st.text_input("Economy name", value="India")
     country_code = st.text_input("ISO-2 country code", value="IN", max_chars=2)
     st.markdown("---")
     st.subheader("Advanced")
     max_retry   = st.number_input("Max API retries", 0, 5, 2)
-    temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
+    #temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
     max_tokens  = st.number_input("Max output tokens", 50, 2000, 512, 50)
     sleep_time  = st.slider("Sleep between retries (sec)", 0.0, 5.0, 0.7, 0.1)
     http_timeout= st.number_input("HTTP timeout (sec)", 10, 120, 30, 5)
