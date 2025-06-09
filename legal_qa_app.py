@@ -37,8 +37,6 @@ Always consult the web search tool for the most current information before provi
   - `LAW: <law name, section/article, year>`
   - `LINK: <official government or legal source URL>`
 
-- For binary questions, only respond with "Yes" or "No". If a law or regulation does not apply, use 'N/A'.
-
 # Examples
 
 - **Example 1:**
