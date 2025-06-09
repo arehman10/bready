@@ -76,7 +76,7 @@ def call_openai(
 ) -> str:
 
     # ---------- o-model branch (o3, o3-mini …) ----------
-    if model.startswith("o3"):
+    if model.startswith("o"):
         resp = client.responses.create(
             model=model,
             input=[
@@ -125,7 +125,7 @@ with st.sidebar:
     ]
     model = st.selectbox("OpenAI model", options=allowed_models)
 
-    is_o_model = model.startswith("o3")              # helper flag
+    is_o_model = model.startswith("o")              # helper flag
 
     temperature = st.slider(
         "Temperature",
