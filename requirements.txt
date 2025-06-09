@@ -1,9 +1,6 @@
-pandas
 streamlit
-requests
-openpyxl
-xlrd
-folium
-ssl
-certifi
+openai
+pandas
 httpx
+certifi
+openpyxl
