@@ -87,7 +87,7 @@ def call_openai(
                 "effort": "high", # unchanged
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             },
-            store=true,
+            store=True
         )
         return resp.output_text.strip()
 
@@ -104,7 +104,7 @@ def call_openai(
         temperature=temperature,
         max_output_tokens=max_tokens,
         top_p=1,
-        store=true,
+        store=True
     )
     return resp.output_text.strip()
 
