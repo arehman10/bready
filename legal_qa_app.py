@@ -82,12 +82,11 @@ def call_openai(
                 {"role": "user",   "content": prompt}
             ],
             max_output_tokens=max_tokens,   # optional; include only if allowed
-            store=False,
+            store=True,
             reasoning={
                 "effort": "high", # unchanged
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
-            },
-            store=True
+            }
         )
         return resp.output_text.strip()
 
