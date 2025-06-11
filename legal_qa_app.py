@@ -180,7 +180,7 @@ with st.sidebar:
     st.subheader("Advanced")
     max_retry   = st.number_input("Max API retries", 0, 5, 2)
     #temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
-    max_tokens  = st.number_input("Max output tokens", 50, 5000, 512, 50)
+    max_tokens  = st.number_input("Max output tokens", 50, 50000, 512, 50)
     sleep_time  = st.slider("Sleep between retries (sec)", 0.0, 5.0, 0.7, 0.1)
     http_timeout= st.number_input("HTTP timeout (sec)", 10, 120, 30, 5)
     extra_ca    = st.text_input("Extra CA bundle (optional)")
