@@ -121,6 +121,7 @@ with st.sidebar:
         "gpt-4.1",
         "gpt-4.1-mini",
         "o3",
+        "o3-pro",
         "o3-mini",
         "o4-mini",
         "gpt-4.5-preview"
