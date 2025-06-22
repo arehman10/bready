@@ -32,7 +32,7 @@ Always consult the web search tool for the most current information on {economy}
 
 # Output Format
 NO html or Markdown tags in the output. Answer lines should be formatted EXACTLY as follows:
-  - `ANSWER: <direct answer> [yes, no or N/A]`
+  - `ANSWER: <yes, no or N/A>`
   - `LAW: <law name, section/article, year>`
   - `LINK: <official government or legal source URL>`
 
