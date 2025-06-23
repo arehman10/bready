@@ -227,7 +227,7 @@ if uploaded_file:
             while attempt <= max_retry:
                 try:
                     prompt = build_prompt(question)
-                    sys_instr = LEGAL_QA_SYSTEM_PROMPT_O.format(economy=economy)
+                    sys_instr = LEGAL_QA_SYSTEM_PROMPT.format(economy=economy)
                     raw = call_openai(
                         client,
                         model,
