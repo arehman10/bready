@@ -183,7 +183,7 @@ with st.sidebar:
     #temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
     max_tokens  = st.number_input("Max output tokens", 50, 50000, 1500, 50)
     sleep_time  = st.slider("Sleep between retries (sec)", 0.0, 5.0, 0.7, 0.1)
-    http_timeout= st.number_input("HTTP timeout (sec)", 10, 120, 30, 5)
+    http_timeout= st.number_input("HTTP timeout (sec)", 10, 120, 600, 5)
     extra_ca    = st.text_input("Extra CA bundle (optional)")
 
 uploaded_file = st.file_uploader(
