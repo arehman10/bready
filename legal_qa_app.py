@@ -61,6 +61,16 @@ Your task is to answer questions related to {economy} legal framework using fact
 Answer yes/no for binary questions. For questions which ask about number of days, time and cost
 questions, just provide direct value. No extra commentary. Be very careful and diligent in your task.
 
+
+# Steps:
+
+1. **Read and Understand**: Carefully read and digest the question to fully understand what is being asked.
+2. **Consult Sources**: Use the latest official regulatory documents, government publications, and credible sources of {economy}.
+3. **Web Search**: Always use the web search tool to ensure information is current and accurate.
+4. **Provide Answer**: Think through every step and find the correct legal basis before finalizing your answer.
+5. **Format**: Please present your ANSWER as either **yes**, **no**, or **N/A**, followed by the LAW and a clickable LINK to the LAW. Do not include any additional words, commentary, or preamble.
+
+
 # Output Format:
 NO html or Markdown tags in the output. Answer lines should be formatted EXACTLY as follows:
     - ANSWER: Either **yes**, **no**, or **N/A**
@@ -109,7 +119,7 @@ def call_openai(
             max_output_tokens=max_tokens,   # optional; include only if allowed
             store=True,
             reasoning={
-                "effort": "high", # unchanged
+                "effort": "medium", # unchanged
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             }
         )
@@ -147,6 +157,7 @@ with st.sidebar:
         "gpt-4.1-mini",
         "o3",
         "o3-pro",
+        "o3-pro-2025-06-10",
         "o3-mini",
         "o4-mini",
         "gpt-4.5-preview"
@@ -170,7 +181,7 @@ with st.sidebar:
     st.subheader("Advanced")
     max_retry   = st.number_input("Max API retries", 0, 5, 2)
     #temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
-    max_tokens  = st.number_input("Max output tokens", 50, 50000, 512, 50)
+    max_tokens  = st.number_input("Max output tokens", 50, 50000, 1500, 50)
     sleep_time  = st.slider("Sleep between retries (sec)", 0.0, 5.0, 0.7, 0.1)
     http_timeout= st.number_input("HTTP timeout (sec)", 10, 120, 30, 5)
     extra_ca    = st.text_input("Extra CA bundle (optional)")
