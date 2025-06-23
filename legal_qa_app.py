@@ -6,7 +6,7 @@ from pathlib import Path
 import streamlit as st
 from openai import OpenAI
 
-# ---------- Helpers ------------------------------------------------------
+# ---------- Helpers -------------------------------------------------------
 def parse_three_lines(text: str) -> dict:
     out = {"ANSWER": "", "LAW": "", "LINK": ""}
     if not text:
