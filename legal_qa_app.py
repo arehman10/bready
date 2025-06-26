@@ -129,9 +129,10 @@ def call_openai(
             }
         )
 
+        
+        return resp.output_text.strip()
         for chunk in resp:
             answer_ph.write(chunk.output_text or "")
-        return resp.output_text.strip()
 
     # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
