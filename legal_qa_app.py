@@ -128,15 +128,7 @@ def call_openai(
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             }
         )
-
-        
         return resp.output_text.strip()
-        full_text = ""
-        for chunk in resp:               # resp is an iterator now
-            delta = chunk.output_text or ""
-            full_text += delta
-            st.write(delta, end="")      # update the UI in real time
-
     # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
         model=model,
