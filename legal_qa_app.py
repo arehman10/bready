@@ -128,13 +128,6 @@ def call_openai(
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             }
         )
-
-        full_text = ""
-        for event in resp:                       # ➊ iterate over events
-            # the event you want for plain text chunks is  response.output_text.delta
-            if event.type == "response.output_text.delta":
-                full_text += event.delta           # ➋ append the new chunk
-                print(event.delta, end="", flush=True)  # live update (e.g. Streamlit placeholder)
         return resp.output_text.strip()
     # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
