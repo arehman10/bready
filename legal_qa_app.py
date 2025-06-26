@@ -197,6 +197,10 @@ if uploaded_file:
     st.dataframe(df_questions.head())
 
     if st.button("Run Q&A"):
+        st.session_state["running"] = True
+
+
+    if st.session_state.get("running"):  
         if not api_key:
             st.error("Please enter your OpenAI API key.")
             st.stop()
@@ -274,5 +278,6 @@ if uploaded_file:
         st.download_button(
             "Download results as Excel", buffer, file_name=out_name
         )
+        st.session_state["running"] = False
 else:
     st.info("Upload an Excel file to get started.")
