@@ -131,10 +131,11 @@ def call_openai(
      
  #       return resp.output_text.strip()
         answer = ""
+        answer_ph = st.empty()
         for event in resp:
             if event.type == "response.output_text.delta":
                 answer += event.delta                # build full text
-                answer_ph.write(event.delta, unsafe_allow_html=False)  # live update
+                answer_ph.markdown(answer)  # live update
     
         return answer.strip()                        # <— no AttributeError
 
