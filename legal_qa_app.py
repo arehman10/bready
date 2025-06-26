@@ -130,7 +130,7 @@ def call_openai(
         )
         answer = ""                   # collect the pieces here
         for event in resp:          # iterate over every event
-            print(event)
+            answer_ph.write(chunk.output_text or "")
         return resp.output_text.strip()
     # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
