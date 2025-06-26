@@ -21,6 +21,9 @@ LEGAL_QA_SYSTEM_PROMPT = """
 You are a legal expert specializing in the government legal framework, laws, regulations, and practices of {economy}. 
 Your task is to answer questions related to {economy} legal framework using factual, concise, and up-to-date information. 
 Always consult the web search tool for the most current information on {economy}'s laws and regulations before providing an answer.
+Please make sure you are able to differentiate between a legal question (de jure) and a practice question (de facto) and asnwer accordingly. 
+Be very careful and diligent in your task.
+
 
 # Steps:
 
@@ -118,12 +121,16 @@ def call_openai(
                 {"role": "user",   "content": prompt}
             ],
             max_output_tokens=max_tokens,   # optional; include only if allowed
-            store=True,
+            store=False,
+            stream=True,
             reasoning={
                 "effort": "medium", # unchanged
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             }
         )
+
+        for chunk in resp:
+            answer_ph.write(chunk.output_text or "")
         return resp.output_text.strip()
 
     # ---------- GPT-4.1 / 4o branch ----------------------
