@@ -130,7 +130,7 @@ def call_openai(
         )
 
         full_text = ""
-        for event in stream:                       # ➊ iterate over events
+        for event in resp:                       # ➊ iterate over events
             # the event you want for plain text chunks is  response.output_text.delta
             if event.type == "response.output_text.delta":
                 full_text += event.delta           # ➋ append the new chunk
