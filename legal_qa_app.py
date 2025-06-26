@@ -122,12 +122,15 @@ def call_openai(
             ],
             max_output_tokens=max_tokens,   # optional; include only if allowed
             store=False,
-            stream=False,
+            stream=True,
             reasoning={
                 "effort": "medium", # unchanged
                 "summary": "auto" # auto gives you the best available summary (detailed > auto > None)
             }
         )
+        answer = ""                   # collect the pieces here
+        for event in resp:          # iterate over every event
+            print(event)
         return resp.output_text.strip()
     # ---------- GPT-4.1 / 4o branch ----------------------
     resp = client.responses.create(
