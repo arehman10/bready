@@ -196,7 +196,7 @@ if uploaded_file:
     st.write("Preview of uploaded file:")
     st.dataframe(df_questions.head())
 
-    if st.button("▶️  Run Q&A"):
+    if st.button("Run Q&A"):
         if not api_key:
             st.error("Please enter your OpenAI API key.")
             st.stop()
@@ -265,7 +265,7 @@ if uploaded_file:
             df_answers.to_excel(wr, index=False)
         buffer.seek(0)
         st.download_button(
-            "💾 Download results as Excel", buffer, file_name=out_name
+            "Download results as Excel", buffer, file_name=out_name
         )
 else:
-    st.info("⬆️  Upload an Excel file to get started.")
+    st.info("Upload an Excel file to get started.")
