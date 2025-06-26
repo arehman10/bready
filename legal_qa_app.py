@@ -220,6 +220,8 @@ if uploaded_file:
 
         total = len(df_answers)
 
+        title_ph   = st.empty()
+        answer_ph  = st.empty()
         for idx, row in df_answers.iterrows():
             q_ref, question = row["Reference"], row["Question"]
             status_text.markdown(f"**Processing:** `{q_ref}`")
@@ -238,8 +240,11 @@ if uploaded_file:
                         temperature,
                         max_tokens,
                     )
-                    st.markdown(f"### Response for **{q_ref}**")
-                    st.code(raw, language="text")
+
+                    title_ph.markdown(f"### Response for **{q_ref}**")
+                #    st.markdown(f"### Response for **{q_ref}**")
+                #    st.code(raw, language="text")
+                    answer_ph.code(raw, language="text")
                     parsed = parse_three_lines(raw)
                     df_answers.at[idx, "Answer"]      = parsed["ANSWER"]
                     df_answers.at[idx, "Legal Basis"] = parsed["LAW"]
@@ -249,6 +254,8 @@ if uploaded_file:
                     attempt += 1
                     if attempt > max_retry:
                         df_answers.at[idx, "Answer"] = f"API error: {e}"
+                        st.error(f"[{q_ref}] {e}")
+                        break
                     time.sleep(sleep_time)
 
             live_table_ph.dataframe(df_answers.iloc[: idx + 1], use_container_width=True)
